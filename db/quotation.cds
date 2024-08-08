@@ -6,11 +6,12 @@ context app.quotation {
             KUNNR      : String(10);
             NAME1      : String(35);
             REGIO      : String(3);
-            ORTO1      : String(35);
+            ORT01      : String(35);
             STATUS     : String(1);
             AUFSD      : String(2);
+            VKORG       :String(4);
             VKBUR      : String(4);
-            ERDAT      : Date;
+            ERDAT      : String;
             ERNAM      : String(12);
     }
 
@@ -29,6 +30,7 @@ context app.quotation {
 
     entity DATA_CARR {
         key ID   : String;
+            SERV :String;
             DATA : LargeString;
     }
 

@@ -1,0 +1,12 @@
+POST  http://localhost:4004/quotation/DATA_CARR
+Content-Type: application/json
+
+{
+    "ID":"56S",
+    "SERV":"Header_Data",
+    "DATA": "[{\"ZQUOTATION\":\"0020001317\",\"VBELN\":\"0000002468\",\"KUNNR\":\"USCU_S12\",\"NAME1\":\"Century Cycles\",\"REGIO\":\"VA\",\"ORT01\":\"RICHMOND\",\"STATUS\":\"\",\"AUFSD\":\"\",\"VKORG\":\"1710\",\"VKBUR\":\"\",\"ERDAT\":\"2020-02-03\",\"ERNAM\":\"BPINST\"}]"
+}
+
+
+
+

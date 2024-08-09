@@ -19,10 +19,7 @@ module.exports = async srv =>{
             for (let index = 0; index < S4_GetData.length; index++) {
                 const element = S4_GetData[index];
                 element['POSNR'] = element.POSNR + "";
-                element['KWMENG'] = element.KWMENG + "";
-                element['KBMENG']  = element.KBMENG + "";
-                element['NETWR'] = element.NETWR +"";
-                var post_obj =  await cds.run(INSERT.into("APP_QUOTATION_QUOT_ITEM_DATA").entries(element))
+                var post_obj =   cds.run(INSERT.into("APP_QUOTATION_QUOT_ITEM_DATA").entries(element))
             }
         }
      

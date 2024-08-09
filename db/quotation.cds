@@ -21,10 +21,10 @@ context app.quotation {
         key POSNR      : String(6);
             MATNR      : String(40);
             MAKTX      : String(40);
-            KWMENG     : String(15);
-            KBMENG     : String(15);
-            NETWR      : String(15);
-            STATUS     : String(1);
+            KWMENG     : Decimal(10,3);
+            KBMENG     : Decimal(10,3);
+            NETWR      : Decimal(10,2);
+            ZSTATUS     : String(1);
 
     }
 

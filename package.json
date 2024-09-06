@@ -6,18 +6,13 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^6.8.4",
+    "@sap/cds": "^8.1.1",
     "@sap/cds-hana": "^2",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/hdi-deploy": "^5.0.1",
-    "@sap/xsenv": "^4.1.0",
-    "@sap/xssec": "^3",
     "axios": "^1.6.5",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
-    "passport": "^0.7.0",
-    "sql": "^0.78.0",
-    "sqlite3": "^5.1.6"
+    "sql": "^0.78.0"
   },
   "scripts": {
     "start": "cds-serve",
@@ -44,11 +39,15 @@
     "requires": {
       "db": {
         "kind": "sql"
+      },
+      "data": {
+        "model": "db/quotation.cds"
       }
     }
   },
   "devDependencies": {
     "@sap/cds-dk": "^7",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "sqlite3": "^5.1.7"
   }
 }

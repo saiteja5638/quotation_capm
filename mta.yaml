@@ -35,6 +35,20 @@ modules:
     requires:
       - name: quotation_capm-db
 
+  - name: myapp
+    type: python
+    path: python
+    parameters:
+      buildpack: python_buildpack
+      memory: 256M
+      command: python server.py
+    provides:
+      - name: python-service
+        properties:
+          url: ${default-url}
+    requires:
+      - name: quotation_capm-db
+
 resources:
   - name: quotation_capm-db
     type: com.sap.xs.hdi-container

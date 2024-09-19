@@ -1,4 +1,6 @@
 Flask==2.3.*
 cfenv==0.5.3
 hdbcli==2.17.*
-requests==2.28.1
+pickle5==0.0.11
+numpy==1.24.3   # (Or the latest version you're using)
+pandas==2.0.3   # (Or the latest version you're using)

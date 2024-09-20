@@ -1,6 +1,8 @@
-Flask==2.3.*
+Flask==3.0.0
 cfenv==0.5.3
 hdbcli==2.17.*
-pickle5==0.0.11
-numpy==1.24.3   # (Or the latest version you're using)
-pandas==2.0.3   # (Or the latest version you're using)
+numpy==2.1.1
+pandas==2.2.2
+scikit-learn==1.5.2
+pip>=24.2
+setuptools>=74.1.1

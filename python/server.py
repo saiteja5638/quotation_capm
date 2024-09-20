@@ -12,9 +12,16 @@ env = AppEnv()
 port = int(os.environ.get('PORT', 3084))
 
 # Define the file paths
-scaler_path = r'Final_RF/model/bal_scaler_encoders.pkl'
-encoders_path = r'Final_RF/model/bal_encoders.pkl'
-model_path = r'Final_RF/model/random_forest_model.pkl'
+base_path = os.path.dirname(os.path.abspath(__file__))
+scaler_path = os.path.join(base_path, 'model', 'bal_scaler_encoders.pkl')
+encoders_path = os.path.join(base_path, 'model', 'bal_encoders.pkl')
+model_path = os.path.join(base_path, 'model', 'random_forest_model.pkl')
+
+import os
+
+# Get the root path of the current script
+root_path = os.path.abspath(os.sep)
+print("Root Path:", root_path)
 
 # Check if the files exist and load them
 def load_pickle(file_path):
@@ -45,7 +52,7 @@ def predict_status(item):
     item_scaled = scaler.transform(item.reshape(1, -1))
     
     # Perform prediction
-    prediction = model.predict(item_scaled)
+    prediction = random_forest_model.predict(item_scaled)
     
     # Determine success/failure and calculate percentage
     prediction_class = (prediction > 0.5).astype(int)
@@ -84,11 +91,9 @@ def predict():
         # Convert categorical columns to string if not already
         input_data['MATNR'] = input_data['MATNR'].astype(str)
         input_data['KUNNR'] = input_data['KUNNR'].astype(str)
-
         # Encode categorical columns using the loaded encoders
         input_data['MATNR'] = encoders['MATNR'].transform(input_data['MATNR'])
         input_data['KUNNR'] = encoders['KUNNR'].transform(input_data['KUNNR'])
-
         # Convert input_data to numpy array of float64 type for prediction
         input_data_np = input_data.values.astype(np.float64)
         print('1',input_data_np)

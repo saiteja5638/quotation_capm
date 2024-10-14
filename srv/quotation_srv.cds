@@ -8,5 +8,14 @@ service Quotation {
     entity DATA_CARR        as projection on quotation.DATA_CARR;
     entity Z_QUOTATION      as projection on quotation.Z_QUOTATION;
 
+      action ApproveQuotation(DATA:String) returns String;
+
+
+    function createQuotation(KUNNR : String,
+                             VKORG : String,
+                             MATNR : String,
+                             NETWR : String, // Allowing for null values
+                             KWMENG : String) returns String; // You can change the return type as required
+
 
 }

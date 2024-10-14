@@ -9,15 +9,13 @@ import pandas as pd
 
 app = Flask(__name__)
 env = AppEnv()
-port = int(os.environ.get('PORT', 3084))
+port = int(os.environ.get('PORT', 3001))
 
 # Define the file paths
 base_path = os.path.dirname(os.path.abspath(__file__))
 scaler_path = os.path.join(base_path, 'model', 'bal_scaler_encoders.pkl')
 encoders_path = os.path.join(base_path, 'model', 'bal_encoders.pkl')
 model_path = os.path.join(base_path, 'model', 'random_forest_model.pkl')
-
-import os
 
 # Get the root path of the current script
 root_path = os.path.abspath(os.sep)
@@ -54,18 +52,19 @@ def predict_status(item):
     # Perform prediction
     prediction = random_forest_model.predict(item_scaled)
     
-    # Determine success/failure and calculate percentage
-    prediction_class = (prediction > 0.5).astype(int)
-    status_mapping = {0: 'Rejected', 1: 'Success'}
-    output = status_mapping[prediction_class[0]]
+    # Get the predicted probabilities for both classes
+    probabilities = random_forest_model.predict_proba(item_scaled)[0]
     
-    # Calculate success or rejection percentage
-    if output == 'Success':
-        percentage = (prediction - 0.5) * 200
-    else:
-        percentage = (0.5 - prediction) * 200
+    # Map the prediction to the corresponding label
+    status_mapping = {0: 'Rejected', 1: 'Success'}
+    output = status_mapping[prediction.flatten()[0]]
+    
+    # Calculate percentages for each class
+    success_percentage = probabilities[1] * 100  # Probability of success (class 1)
+    failure_percentage = probabilities[0] * 100  # Probability of failure (class 0)
+    
+    return output, success_percentage, failure_percentage
 
-    return output, percentage[0]
 
 @app.route('/')
 def hello():
@@ -74,39 +73,41 @@ def hello():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-
         parsed_data = json.loads(request.data)
-        # print(parsed_data)
         MATNR = parsed_data['MATNR']
         KWMENG = float(parsed_data['KWMENG'])
         NETWR = float(parsed_data['NETWR'])
         KUNNR = parsed_data['KUNNR']
         VKORG = parsed_data['VKORG']
 
-        # Prepare input data (ensure proper dtype)
+        # Prepare input data
         input_data = pd.DataFrame([[MATNR, KWMENG, NETWR, KUNNR, VKORG]], 
                                   columns=['MATNR', 'KWMENG', 'NETWR', 'KUNNR', 'VKORG'])
-        print(input_data)
 
-        # Convert categorical columns to string if not already
+        # Convert categorical columns to string
         input_data['MATNR'] = input_data['MATNR'].astype(str)
         input_data['KUNNR'] = input_data['KUNNR'].astype(str)
-        # Encode categorical columns using the loaded encoders
+
+        # Encode categorical columns
         input_data['MATNR'] = encoders['MATNR'].transform(input_data['MATNR'])
         input_data['KUNNR'] = encoders['KUNNR'].transform(input_data['KUNNR'])
-        # Convert input_data to numpy array of float64 type for prediction
+
+        # Convert input_data to numpy array
         input_data_np = input_data.values.astype(np.float64)
-        print('1',input_data_np)
-        # Predict status and percentage
-        status, percentage = predict_status(input_data_np)
-        print('2',status)
-        # Format the response
+
+        # Predict status and percentages
+        status, success_percentage, failure_percentage = predict_status(input_data_np)
+
+        # Return both percentages in the response
         return jsonify({
             'status': status,
-            'percentage': f"{percentage:.2f}%"
+            'success_percentage': f"{success_percentage:.2f}%",
+            'failure_percentage': f"{failure_percentage:.2f}%"
         })
     
     except Exception as e:
         return jsonify({'error': str(e)})
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)

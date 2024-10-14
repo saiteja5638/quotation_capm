@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^6.8.4",
+    "@sap/cds": "^8.1.1",
     "@sap/cds-hana": "^2",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/hdi-deploy": "^5.0.1",
@@ -18,7 +18,8 @@
     "python": "^0.0.4",
     "requests": "^0.3.0",
     "sql": "^0.78.0",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "ws": "^8.18.0"
   },
   "scripts": {
     "start": "cds-serve",

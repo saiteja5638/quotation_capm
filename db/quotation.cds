@@ -47,6 +47,7 @@ context app.quotation {
             ZWERKS     : Decimal(5,2);
             ZKUNNR     : Decimal(5,2);
             ZMATNR     : Decimal(5,2);  
+            MAKTX      : String(40);
     }        
 
 }

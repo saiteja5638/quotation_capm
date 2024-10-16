@@ -43,11 +43,12 @@ context app.quotation {
             MATNR      : String(40);
             NETWR      : Decimal(10, 2);
             KWMENG     : Decimal(10, 3);
-            ZVKORG     : Decimal(5,2);
-            ZWERKS     : Decimal(5,2);
-            ZKUNNR     : Decimal(5,2);
-            ZMATNR     : Decimal(5,2);  
+            ZVKORG     : Decimal(5, 2);
+            ZWERKS     : Decimal(5, 2);
+            ZKUNNR     : Decimal(5, 2);
+            ZMATNR     : Decimal(5, 2);
             MAKTX      : String(40);
+            ZNETWRP    : Decimal(5, 2)
     }        
 
 }

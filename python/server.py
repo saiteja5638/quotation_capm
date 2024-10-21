@@ -76,13 +76,13 @@ def predict():
         parsed_data = json.loads(request.data)
         MATNR = parsed_data['MATNR']
         KWMENG = float(parsed_data['KWMENG'])
-        NETWR = float(parsed_data['NETWR'])
+        NETPR = float(parsed_data['NETPR'])
         KUNNR = parsed_data['KUNNR']
         VKORG = parsed_data['VKORG']
 
         # Prepare input data
-        input_data = pd.DataFrame([[MATNR, KWMENG, NETWR, KUNNR, VKORG]], 
-                                  columns=['MATNR', 'KWMENG', 'NETWR', 'KUNNR', 'VKORG'])
+        input_data = pd.DataFrame([[MATNR, KWMENG, NETPR, KUNNR, VKORG]], 
+                                  columns=['MATNR', 'KWMENG', 'NETPR', 'KUNNR', 'VKORG'])
 
         # Convert categorical columns to string
         input_data['MATNR'] = input_data['MATNR'].astype(str)

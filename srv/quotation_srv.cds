@@ -14,7 +14,7 @@ service Quotation {
     function createQuotation(KUNNR : String,
                              VKORG : String,
                              MATNR : String,
-                             NETWR : String, // Allowing for null values
+                             NETPR : String, // Allowing for null values
                              KWMENG : String) returns String; // You can change the return type as required
 
 

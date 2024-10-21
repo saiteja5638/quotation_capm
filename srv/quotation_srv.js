@@ -45,11 +45,15 @@ module.exports = async (srv) => {
     })  
     srv.on('createQuotation', async (req, res) => {
         try {
+
+            
+            let result = req.data.KUNNR.replace(/^00/, ''); // Remove the first two zeros
+          
             const requestData = {
-                KUNNR: req.data.KUNNR,
+                KUNNR: result,
                 VKORG: parseInt(req.data.VKORG),
                 MATNR: req.data.MATNR,
-                NETWR: parseInt(req.data.NETWR),
+                NETPR: parseInt(req.data.NETPR),
                 KWMENG: parseInt(req.data.KWMENG)
             };
             const reqUrl = "https://060a0275trial-dev-myapp.cfapps.us10-001.hana.ondemand.com/predict";

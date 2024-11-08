@@ -49,7 +49,9 @@ context app.quotation {
             ZMATNR     : Decimal(5, 2);
             MAKTX      : String(40);
             ZNETWRP    : Decimal(5, 2);
-            NETPR      : Decimal(11,2);
-    }        
+            NETPR      : Decimal(11, 2);
+            ZMATAVG    : Decimal(10, 3);
+            ZMATAVGK   : Decimal(10, 3);
+    }
 
 }

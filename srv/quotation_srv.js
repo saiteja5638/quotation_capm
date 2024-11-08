@@ -1,17 +1,17 @@
 const cds = require('@sap/cds');
 const { DELETE } = require('@sap/cds/lib/ql/cds-ql');
 const axios = require('axios');
+var WebSocket = require('ws');
 
 module.exports = async (srv) => {
 
-    // WebSocket broadcast function
-    // const broadcastUpdate = (wss, data) => {
-    //     wss.clients.forEach(client => {
-    //         if (client.readyState === WebSocket.OPEN) {
-    //             client.send(JSON.stringify(data));
-    //         }
-    //     });
-    // };
+    const broadcastUpdate = (wss, data) => {
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify(data));
+            }
+        });
+    };
 
     srv.before('CREATE', 'Z_QUOTATION', async (req) => {
         try {
@@ -29,11 +29,15 @@ module.exports = async (srv) => {
         try {
              
             let response_data = JSON.parse(req.data.DATA)
-            let dat = cds.run(DELETE.from("APP_QUOTATION_Z_QUOTATION"));
+             await cds.run(DELETE.from("APP_QUOTATION_Z_QUOTATION"));
      
                 for (let index = 0; index < response_data.length; index++) {
                     const element = response_data[index];
                     await cds.run(INSERT.into("APP_QUOTATION_Z_QUOTATION").entries(element));
+
+                    if (index + 1 == response_data.length) {
+                        broadcastUpdate(global.wss, { action: 'ApproveQuotation', data: "working fine" });
+                    }
                 }
             
                 return "Success"

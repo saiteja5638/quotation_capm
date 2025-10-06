@@ -4,29 +4,6 @@ const axios = require('axios');
 var WebSocket = require('ws');
 
 module.exports = async (srv) => {
-
-    srv.on('ApproveQuotation',async(req)=>{
-        try {
-             
-            let response_data = JSON.parse(req.data.DATA)
-             await cds.run(DELETE.from("APP_QUOTATION_Z_QUOTATION"));
-     
-                for (let index = 0; index < response_data.length; index++) {
-                    const element = response_data[index];
-                    await cds.run(INSERT.into("APP_QUOTATION_Z_QUOTATION").entries(element));
-
-                    if (index + 1 == response_data.length) {
-                        broadcastUpdate(global.wss, { action: 'ApproveQuotation', data: "working fine" });
-                    }
-                }
-            
-                return "Success"
-       
-            
-        } catch (error) {
-            console.log(error)
-        }
-    })  
     srv.on('createQuotation', async (req, res) => {
         try {
 

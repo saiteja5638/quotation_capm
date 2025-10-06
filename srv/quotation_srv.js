@@ -5,26 +5,6 @@ var WebSocket = require('ws');
 
 module.exports = async (srv) => {
 
-    const broadcastUpdate = (wss, data) => {
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(data));
-            }
-        });
-    };
-
-    srv.before('CREATE', 'Z_QUOTATION', async (req) => {
-        try {
-          // Start a transactional request
-          let dat = cds.run(DELETE.from("APP_QUOTATION_Z_QUOTATION"));
-          
-        } catch (error) {
-          // Rollback in case of any errors
-          console.log("Error handling /Z_QUOTATION:", error);
-     
-        }
-      });
-
     srv.on('ApproveQuotation',async(req)=>{
         try {
              
@@ -50,9 +30,9 @@ module.exports = async (srv) => {
     srv.on('createQuotation', async (req, res) => {
         try {
 
-            
+
             let result = req.data.KUNNR.replace(/^00/, ''); // Remove the first two zeros
-          
+
             const requestData = {
                 KUNNR: result,
                 VKORG: parseInt(req.data.VKORG),
@@ -60,43 +40,37 @@ module.exports = async (srv) => {
                 NETPR: parseInt(req.data.NETPR),
                 KWMENG: parseInt(req.data.KWMENG)
             };
-            const reqUrl = "https://060a0275trial-dev-myapp.cfapps.us10-001.hana.ondemand.com/predict";
+            const reqUrl = "http://100.96.8.237:8001/predict";
             const response = await axios.post(reqUrl, requestData);
-            console.log(response.data);
-
             return response.data;
         } catch (error) {
             console.log(error);
             req.reject(500, error.message);
         }
     });
-    srv.before(['CREATE'], 'DATA_CARR', async (req, res) => {
+
+    srv.on('predictQuotation',async(req,res)=>{
         try {
-            let Get_Data = req.data.DATA;
-            let serv = req.data.SERV;
-            let S4_GetData = JSON.parse(Get_Data);
+            let {KUNNR,VKORG,MATNR,NETPR,KWMENG} =  req.data.quotation[0];
 
-            if (serv === 'Header_Data') {
-                for (let index = 0; index < S4_GetData.length; index++) {
-                    const element = S4_GetData[index];
-                    await cds.run(INSERT.into("APP_QUOTATION_QUOT_HEADER_DATA").entries(element));
-                }
-            }
 
-            if (serv === 'Item_Data') {
-                for (let index = 0; index < S4_GetData.length; index++) {
-                    const element = S4_GetData[index];
-                    element['POSNR'] = element.POSNR + "";
-                    await cds.run(INSERT.into("APP_QUOTATION_QUOT_ITEM_DATA").entries(element));
-                }
-            }
+            let result = KUNNR.replace(/^00/, ''); // Remove the first two zeros
 
-            // Broadcast the data insert via WebSocket
-            // broadcastUpdate(global.wss, { action: 'insertData', data: { Get_Data, serv } });
+            const requestData = {
+                KUNNR: result,
+                VKORG: parseInt(VKORG),
+                MATNR: MATNR,
+                NETPR: parseInt(NETPR),
+                KWMENG: parseInt(KWMENG)
+            };
+            const reqUrl = "https://41045a93trial-dev-myapp.cfapps.us10-001.hana.ondemand.com/predict";
+            const response = await axios.post(reqUrl, requestData);
+            return {
+                Response:response.data
+            };
 
         } catch (error) {
-            console.log("Issue Raised at: " + error);
-            req.reject(500, error.message);
+            console.log(error)
         }
-    });
+    })
 };

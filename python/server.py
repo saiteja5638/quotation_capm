@@ -2,14 +2,13 @@ import os
 import json
 from flask import Flask,jsonify,request
 from cfenv import AppEnv
-from hdbcli import dbapi
 import pickle
 import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
 env = AppEnv()
-port = int(os.environ.get('PORT', 3001))
+port = int(os.environ.get('PORT', 8001))
 
 # Define the file paths
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -70,41 +69,50 @@ def predict_status(item):
 def hello():
    return "Welcome"
 
+def safe_transform(encoder, value):
+    """
+    Safely transform a value using a fitted sklearn encoder.
+    If the value is unseen, return -1.
+    """
+    classes = encoder.classes_
+    if value in classes:
+        return encoder.transform([value])[0]
+    else:
+        print(f"⚠️ Unseen label '{value}' encountered. Assigning -1.")
+        return -1
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        parsed_data = json.loads(request.data)
-        MATNR = parsed_data['MATNR']
+        parsed_data = request.get_json(force=True)
+
+        MATNR = str(parsed_data['MATNR'])
         KWMENG = float(parsed_data['KWMENG'])
         NETPR = float(parsed_data['NETPR'])
-        KUNNR = parsed_data['KUNNR']
+        KUNNR = str(parsed_data['KUNNR'])
         VKORG = parsed_data['VKORG']
 
         # Prepare input data
         input_data = pd.DataFrame([[MATNR, KWMENG, NETPR, KUNNR, VKORG]], 
                                   columns=['MATNR', 'KWMENG', 'NETPR', 'KUNNR', 'VKORG'])
 
-        # Convert categorical columns to string
-        input_data['MATNR'] = input_data['MATNR'].astype(str)
-        input_data['KUNNR'] = input_data['KUNNR'].astype(str)
-
-        # Encode categorical columns
-        input_data['MATNR'] = encoders['MATNR'].transform(input_data['MATNR'])
-        input_data['KUNNR'] = encoders['KUNNR'].transform(input_data['KUNNR'])
+        # Encode with safe handling for unseen categories
+        input_data['MATNR'] = input_data['MATNR'].apply(lambda x: safe_transform(encoders['MATNR'], x))
+        input_data['KUNNR'] = input_data['KUNNR'].apply(lambda x: safe_transform(encoders['KUNNR'], x))
 
         # Convert input_data to numpy array
         input_data_np = input_data.values.astype(np.float64)
 
-        # Predict status and percentages
+        # Predict
         status, success_percentage, failure_percentage = predict_status(input_data_np)
 
-        # Return both percentages in the response
         return jsonify({
             'status': status,
             'success_percentage': f"{success_percentage:.2f}%",
             'failure_percentage': f"{failure_percentage:.2f}%"
         })
-    
+
     except Exception as e:
         return jsonify({'error': str(e)})
 

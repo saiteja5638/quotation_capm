@@ -2,7 +2,7 @@ applications:
 - name: myapp
   random-route: true
   path: ./
-  memory: 128M
+  memory: 512M
   buildpacks: 
   - python_buildpack
   command: python server.py

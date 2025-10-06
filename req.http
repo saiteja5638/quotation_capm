@@ -1,11 +1,3 @@
-# POST  http://localhost:4004/quotation/DATA_CARR
-# Content-Type: application/json
-
-# {
-#     "ID":"56Y",
-#     "SERV":"Item_Data",
-#     "DATA": "[{\"ZQUOTATION\":\"0020001447\",\"VBELN\":\"0000002606\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":15.000,\"KBMENG\":15.000,\"NETWR\":2400.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001447\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001448\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001449\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001450\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001451\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001452\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001453\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001454\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"},{\"ZQUOTATION\":\"0020001455\",\"VBELN\":\"0000002609\",\"POSNR\":10,\"MATNR\":\"MZ-TG-Y240\",\"MAKTX\":\"Y240 Bike\",\"KWMENG\":14.000,\"KBMENG\":14.000,\"NETWR\":2240.00,\"ZSTATUS\":\"\"}]"
-# }
 
 # GET http://127.0.0.1:5000/hello
 
@@ -21,22 +13,6 @@
 #     "VKORG": 1710
 # }
  
-
-# GET http://localhost:4004/odata/v4/quotation/createQuotation(KUNNR='USCU_S12',VKORG='1710',MATNR='MZ-TG-Y240',NETWR='2400',KWMENG='15')
-# Content-Type: application/json
-
-# POST http://localhost:4004/v2/odata/v4/quotation/Z_QUOTATION
-# Content-Type: application/json
-
-# {
-#     "ZQUOTATION":"t2",
-#     "POSNR":"t3"
-# }
-
-# POST http://localhost:4004/odata/v4/quotation/ApproveQuotation
-# Content-Type: application/json
-
-# {"DATA":"[[{\"ZQUOTATION\":\"0020000449\",\"POSNR\":\"000010\",\"KUNNR\":\"USCU_S02\",\"WERKS\":\"1710\",\"VKORG\":\"1710\",\"MATNR\":\"MZ-FG-C950\",\"NETWR\":60750.00,\"KWMENG\":0,\"ZVKORG\":100.00,\"ZWERKS\":100.00,\"ZKUNNR\":0,\"ZMATNR\":100.00}]]"}
 
 
 
